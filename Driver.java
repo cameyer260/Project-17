@@ -1,51 +1,79 @@
+package trees;
+
 import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Driver {
 	
-	private static int dummyHashCode(int SSN) {
+	private static int hashCode(int SSN) {
 		return SSN % 1000;	
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		TreeMap<Integer, String> myTM = new TreeMap<>();
 		HashMap<Integer, Double> myHM = new HashMap<>();
 		TreeSet<Double> myTS = new TreeSet<>();
 		
-		//tree map
-		myTM.put(10035, "Jack");
-		myTM.put(57832, "Ethan");
-		myTM.put(43502, "Dumblewood");
-		myTM.put(57932, "Guildenstern");
-		myTM.put(30092, "James");
-		myTM.put(25337, "Hunkleberry");
-		myTM.put(39274, "Dumbleweed");
-		myTM.put(40924, "Grogu");
-		myTM.put(97736, "Crobb");
-		myTM.put(00372, "Djarin");
+		Scanner sc = new Scanner(new File("file.txt")); //java scanner setup
 		
-		//hash map
-		myHM.put(dummyHashCode(100203000), 3.7);
-		myHM.put(dummyHashCode(387429797), 8.3); 
-		myHM.put(dummyHashCode(431584000), 5.6);
-		myHM.put(dummyHashCode(417928342), 5.4);
-		myHM.put(dummyHashCode(131285972), 6.2);
-		myHM.put(dummyHashCode(052323200), 3.4);
-		myHM.put(521242420, 6.7);
-		myHM.put(527891000, 5.9);
-		myHM.put(830807247, 6.5);
-		myHM.put(907239057, 8.6);
+		//array lists for treemap, hashmap, and treeset
+		ArrayList<Integer> tmKeys = new ArrayList<>();
+		ArrayList<String> tmValues = new ArrayList<>();
+		ArrayList<Integer> hmKeys = new ArrayList<>();
+		ArrayList<Double> hmValues = new ArrayList<>();
+		ArrayList<Double> tsValues = new ArrayList<>();
+		String s;
+		boolean stop = false;
 		
-		//tree set
-		myTS.add(4.2);
-		myTS.add(2.7);
-		myTS.add(1.3);
-		myTS.add(3.5);
-		myTS.add(1.2);
-		myTS.add(2.8);
-		myTS.add(3.4);
-		myTS.add(2.4);
-		myTS.add(1.1);
-		myTS.add(0.5);
+		//filling array lists
+		//tree map keys
+		while(sc.hasNextInt()) {
+			tmKeys.add(sc.nextInt());
+		}
+		sc.nextLine();
+		//tree map values
+		while(sc.hasNext() && !stop) {
+			s = sc.next();
+			if(s.equals("STOP")) {
+				stop = true;
+			} else {
+				tmValues.add(s);
+			}
+		}
+		sc.nextLine();
+		sc.nextLine();
+		//hash map keys
+		while(sc.hasNextInt()) {
+			hmKeys.add(sc.nextInt());
+		}
+		sc.nextLine();
+		//hash map values
+		stop = false;
+		while(sc.hasNextDouble() && !stop) {
+			s = sc.next();
+			if(s.equals("STOP")) {
+				stop = true;
+			} else {
+				hmValues.add(Double.parseDouble(s));
+			}
+		}
+		sc.nextLine();
+		sc.nextLine();
+		while(sc.hasNextDouble()) {
+			tsValues.add(sc.nextDouble());
+		}
+		
+		for(int i = 0; i<10; i++) {
+			myTM.put(tmKeys.get(i), tmValues.get(i));
+			myHM.put(hashCode(hmKeys.get(i)), hmValues.get(i));
+			myTS.add(tsValues.get(i));
+		}
+		
+		//to strings
+		System.out.println("TreeMap toString() output: " + myTM.toString());
+		System.out.println("HashMap toString() output: " + myHM.toString());
+		System.out.println("TreeSet toString() output: " + myTS.toString());
 	}
 
 }
