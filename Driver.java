@@ -17,57 +17,26 @@ public class Driver {
 		
 		Scanner sc = new Scanner(new File("file.txt")); //java scanner setup
 		
-		//array lists for treemap, hashmap, and treeset
-		ArrayList<Integer> tmKeys = new ArrayList<>();
-		ArrayList<String> tmValues = new ArrayList<>();
-		ArrayList<Integer> hmKeys = new ArrayList<>();
-		ArrayList<Double> hmValues = new ArrayList<>();
-		ArrayList<Double> tsValues = new ArrayList<>();
-		String s;
-		boolean stop = false;
-		
-		//filling array lists
-		//tree map keys
-		while(sc.hasNextInt()) {
-			tmKeys.add(sc.nextInt());
-		}
-		sc.nextLine();
-		//tree map values
-		while(sc.hasNext() && !stop) {
-			s = sc.next();
-			if(s.equals("STOP")) {
-				stop = true;
-			} else {
-				tmValues.add(s);
+		String next;
+		int i =0; //i=0 line 1 (TreeMap), i=1 line 2 (HashMap), i=2 line 3 (TreeSet)
+		while(sc.hasNext()) {
+			next = sc.next();
+			if(next.equals("STOP")) {
+				i++;
+				try {
+					next = sc.next();
+				} catch(NoSuchElementException e) {
+					i=-1;
+				}
 			}
-		}
-		sc.nextLine();
-		sc.nextLine();
-		//hash map keys
-		while(sc.hasNextInt()) {
-			hmKeys.add(sc.nextInt());
-		}
-		sc.nextLine();
-		//hash map values
-		stop = false;
-		while(sc.hasNextDouble() && !stop) {
-			s = sc.next();
-			if(s.equals("STOP")) {
-				stop = true;
-			} else {
-				hmValues.add(Double.parseDouble(s));
+			
+			if(i==0) { //TreeMap
+				myTM.put(Integer.parseInt(next), sc.next());
+			} else if(i==1) { //HashMap
+				myHM.put(Integer.parseInt(next), Double.parseDouble(sc.next()));
+			} else if(i==2){ //TreeSet
+				myTS.add(Double.parseDouble(next));
 			}
-		}
-		sc.nextLine();
-		sc.nextLine();
-		while(sc.hasNextDouble()) {
-			tsValues.add(sc.nextDouble());
-		}
-		
-		for(int i = 0; i<10; i++) {
-			myTM.put(tmKeys.get(i), tmValues.get(i));
-			myHM.put(hashCode(hmKeys.get(i)), hmValues.get(i));
-			myTS.add(tsValues.get(i));
 		}
 		
 		//to strings
